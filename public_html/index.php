@@ -2,6 +2,13 @@
 
 <html>
 <?php require_once("../includes/head.php"); ?>
+<?php require_once("../includes/BraintreeHelper.php"); ?>
+<?php
+$id = 9996332;
+$braintreeHelper = new BraintreeHelper($gateway, $id);
+$token = $braintreeHelper->generateToken();
+$braintreeId = $braintreeHelper->getId();
+?>
 <body>
 
     <?php require_once("../includes/header.php"); ?>
@@ -31,6 +38,7 @@
                 </section>
 
                 <input id="nonce" name="payment_method_nonce" type="hidden" />
+                <input id="id" name="id" type="hidden" />
                 <button class="button" type="submit"><span>Test Transaction</span></button>
             </form>
         </div>
@@ -39,14 +47,17 @@
     <script src="https://js.braintreegateway.com/web/dropin/1.31.2/js/dropin.min.js"></script>
     <script>
         var form = document.querySelector('#payment-form');
-        var client_token = "<?php echo($gateway->ClientToken()->generate()); ?>";
+        var client_token = "<?php echo($token); ?>";
+
+        document.querySelector('#id').value = '<?php echo($id); ?>';
 
         braintree.dropin.create({
           authorization: client_token,
           selector: '#bt-dropin',
           paypal: {
             flow: 'vault'
-          }
+          },
+          card: false
         }, function (createErr, instance) {
           if (createErr) {
             console.log('Create Error', createErr);
