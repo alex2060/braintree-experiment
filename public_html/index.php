@@ -4,10 +4,14 @@
 <?php require_once("../includes/head.php"); ?>
 <?php require_once("../includes/BraintreeHelper.php"); ?>
 <?php
-$id = 9996332;
+$id = null;
 $braintreeHelper = new BraintreeHelper($gateway, $id);
+$customer = $braintreeHelper->findCustomer($id);
+if (!$customer || $customer->paypalAccounts[0]->revokedAt) {
+  $id = null;
+  $braintreeHelper->cleanId();
+}
 $token = $braintreeHelper->generateToken();
-$braintreeId = $braintreeHelper->getId();
 ?>
 <body>
 

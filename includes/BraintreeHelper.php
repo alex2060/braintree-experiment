@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+use Braintree\Exception\NotFound;
 
 class BraintreeHelper
 {
@@ -14,6 +15,11 @@ class BraintreeHelper
         if ($id) {
             $this->id = $id;
         }
+    }
+
+    public function cleanId()
+    {
+        $this->id = null;
     }
 
     public function generateToken()
@@ -95,23 +101,23 @@ class BraintreeHelper
                 ],
                 'lineItems' => [
                     [
-                        'name' => 'Product1',
+                        'name' => 'Product2',
                         'quantity' => 1,
                         'kind' => Braintree\TransactionLineItem::DEBIT,
                         'unitAmount' => 5,
                         'unitOfMeasure' => 'unit',
                         'totalAmount' => 5,
-                        'productCode' => '54321',
+                        'productCode' => '154321',
                         'commodityCode' => '98765'
                     ],
                     [
-                        'name' => 'Product2',
+                        'name' => 'Product3',
                         'kind' => Braintree\TransactionLineItem::DEBIT,
                         'quantity' => 2,
                         'unitAmount' => 2.5,
                         'unitOfMeasure' => 'unit',
                         'totalAmount' => 5,
-                        'productCode' => '54321',
+                        'productCode' => '154321',
                         'commodityCode' => '98765'
                     ]
                 ]
@@ -120,6 +126,12 @@ class BraintreeHelper
 
     public function findCustomer($id)
     {
-        return $this->gateway->customer()->find($id);
+        if (!$id) return null;
+        try {
+            return $this->gateway->customer()->find($id);
+        } catch (NotFound $e) {
+            return null;
+        }
+
     }
 }
