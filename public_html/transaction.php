@@ -94,6 +94,25 @@
         <section>
             <h5>Payment</h5>
 
+
+<?php
+
+
+$addpost="http://alexhaussmann.com/adhaussmann/a_final/add_post_dev.php?uname=".$name."&hashword=".$password."&tital=text&text=time&body=body&photo=&iframe=&catagoy=shred_app&catagoy_2=";
+
+  $make=$addpost;
+  $ch1 = curl_init();
+  curl_setopt($ch1, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt ($ch1, CURLOPT_VERBOSE,TRUE);
+  curl_setopt($ch1, CURLOPT_URL,  str_replace(' ', '', $make)   );
+  $test2 =  curl_exec($ch1);
+  curl_close($ch1);
+
+
+echo "test";
+
+
+?>
             <table cellpadding="0" cellspacing="0">
                 <tbody>
                     <tr>
