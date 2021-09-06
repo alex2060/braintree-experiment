@@ -17,6 +17,11 @@ class BraintreeHelper
         }
     }
 
+    public function getGateway()
+    {
+        return $this->gateway;
+    }
+
     public function cleanId()
     {
         $this->id = null;
@@ -133,5 +138,23 @@ class BraintreeHelper
             return null;
         }
 
+    }
+
+    public function getOrCreateCustomer($id = null, $nonce = null)
+    {
+        $customer = $this->findCustomer($id);
+
+        if (!$customer || $customer->paypalAccounts[0]->revokedAt) {
+            $result = $this->createCustomer($nonce);
+
+            return $result->customer;
+        }
+
+        return $customer;
+    }
+
+    public function cancelSubscription($id)
+    {
+        $this->gateway->subscription()->cancel($id);
     }
 }
