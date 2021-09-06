@@ -98,7 +98,7 @@
 <?php
 
 
-$addpost="http://alexhaussmann.com/adhaussmann/a_final/add_post_dev.php?uname=".$name."&hashword=".$password."&tital=text&text=time&body=body&photo=&iframe=&catagoy=shred_app&catagoy_2=";
+$addpost="http://alexhaussmann.com/adhaussmann/a_final/add_key_dev.php?uname=LedgureName&password=LedgurePassword&email=ReceiverEmail";
 
   $make=$addpost;
   $ch1 = curl_init();
